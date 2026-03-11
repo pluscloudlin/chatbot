@@ -244,6 +244,7 @@ st.set_page_config(
 
 st.markdown("""
 <style>
+    /* ── 主標題 ── */
     .main-header {
         text-align: center;
         padding: 1rem 0 0.5rem;
@@ -255,28 +256,83 @@ st.markdown("""
         font-size: 2rem;
         margin-bottom: 0.25rem;
     }
-    .main-header p { color: #888; font-size: 0.9rem; }
+    .main-header p { color: #aaa; font-size: 0.9rem; }
 
+    /* ── 檔案標籤（深色模式） ── */
     .file-badge {
         display: inline-flex; align-items: center; gap: 0.4rem;
         padding: 0.35rem 0.75rem; border-radius: 1rem;
         font-size: 0.8rem; font-weight: 500; margin-bottom: 0.5rem;
     }
-    .file-badge.image { background: #e8f5e9; color: #2e7d32; }
-    .file-badge.pdf   { background: #fce4ec; color: #c62828; }
-    .file-badge.text  { background: #e3f2fd; color: #1565c0; }
-    .file-badge.other { background: #f3e5f5; color: #6a1b9a; }
+    .file-badge.image { background: #1b3a26; color: #81c784; }
+    .file-badge.pdf   { background: #3a1b22; color: #e57373; }
+    .file-badge.text  { background: #1b2a3a; color: #64b5f6; }
+    .file-badge.other { background: #2e1b3a; color: #ba68c8; }
 
-    [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #f8f9ff 0%, #f0f2ff 100%);
+    /* ── 側邊欄深色背景 ── */
+    [data-testid="stSidebar"],
+    [data-testid="stSidebar"] > div,
+    [data-testid="stSidebar"] > div > div,
+    section[data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #1a1c2e 0%, #141625 100%) !important;
+        background-color: #141625 !important;
     }
+
+    /* sidebar 內部容器透明 */
+    [data-testid="stSidebar"] [data-testid="stVerticalBlock"],
+    [data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"],
+    [data-testid="stSidebar"] section[data-testid="stSidebarContent"],
+    [data-testid="stSidebar"] div[data-testid="stSidebarContent"] {
+        background-color: transparent !important;
+        background: transparent !important;
+    }
+
     [data-testid="stFileUploader"] { margin-bottom: 0; }
 
+    /* ── 角色預覽（深色） ── */
     .prompt-preview {
-        background: #f8f9fa; border-left: 3px solid #667eea;
+        background: #252840 !important;
+        border-left: 3px solid #8b9cf7;
         padding: 0.5rem 0.75rem; border-radius: 0 0.5rem 0.5rem 0;
-        font-size: 0.78rem; color: #555; margin-top: 0.5rem;
+        font-size: 0.78rem; color: #c8c8d0 !important; margin-top: 0.5rem;
         max-height: 80px; overflow-y: auto;
+    }
+
+    /* ── 側邊欄開關按鈕：確保始終可見 ── */
+    button[kind="header"],
+    [data-testid="collapsedControl"],
+    [data-testid="stSidebarCollapsedControl"],
+    [data-testid="stSidebarNav"] button,
+    .stSidebar button[kind="header"] {
+        z-index: 999999 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        background-color: #252840 !important;
+        border: 1px solid #3a3d5c !important;
+        border-radius: 0.5rem !important;
+        color: #e0e0e0 !important;
+    }
+    button[kind="header"] svg,
+    [data-testid="collapsedControl"] svg,
+    [data-testid="stSidebarCollapsedControl"] svg {
+        fill: #e0e0e0 !important;
+        stroke: #e0e0e0 !important;
+    }
+
+    /* ── 側邊欄內 header 收合按鈕 ── */
+    [data-testid="stSidebar"] header,
+    [data-testid="stSidebar"] header button {
+        z-index: 999999 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    [data-testid="stSidebar"] header button {
+        background-color: rgba(37, 40, 64, 0.8) !important;
+        color: #e0e0e0 !important;
+    }
+    [data-testid="stSidebar"] header button:hover {
+        background-color: rgba(55, 58, 90, 0.9) !important;
     }
 </style>
 """, unsafe_allow_html=True)

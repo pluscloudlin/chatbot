@@ -1,0 +1,6 @@
+[theme]
+# 跟隨系統的深色/亮色模式設定
+base = "dark"
+
+[server]
+headless = true

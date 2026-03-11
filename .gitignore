@@ -4,7 +4,8 @@
 __pycache__/ 
 *.pyc 
 # GitHub 儲存的是專案內容，不是整台電腦環境 
-.venv/ venv/ 
+.venv/ 
+venv/ 
 .DS_Store    
 # Mac 作業系統中的隱藏資料夾管理文件
 # 忽略所有 Markdown 檔案
