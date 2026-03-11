@@ -6,8 +6,10 @@ LangChain + Gemini API 對話機器人
 
 import os
 import sys
+import json
 import base64
 import mimetypes
+from datetime import datetime
 
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -114,6 +116,36 @@ def build_file_message(filepath: str, user_text: str) -> HumanMessage:
     return HumanMessage(content=content)
 
 
+# ──────────────── 對話歷史儲存 ────────────────
+
+HISTORY_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "history")
+os.makedirs(HISTORY_DIR, exist_ok=True)
+
+
+def save_history(messages: list, session_id: str = "default"):
+    """將對話歷史儲存為 JSON 檔案至 history/ 資料夾。"""
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"chat_{session_id}_{timestamp}.json"
+    filepath = os.path.join(HISTORY_DIR, filename)
+
+    records = []
+    for msg in messages:
+        role = "user" if isinstance(msg, HumanMessage) else "assistant"
+        content = msg.content if isinstance(msg.content, str) else str(msg.content)
+        records.append({"role": role, "content": content})
+
+    data = {
+        "session_id": session_id,
+        "saved_at": datetime.now().isoformat(),
+        "messages": records,
+    }
+
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    return filepath
+
+
 # ──────────────── 建立 Chatbot ────────────────
 
 def create_chatbot():
@@ -211,6 +243,9 @@ def main():
             user_input = input("\n🧑 你：").strip()
         except (KeyboardInterrupt, EOFError):
             print("\n\n👋 再見！")
+            if history.messages:
+                fp = save_history(history.messages, session_id)
+                print(f"💾 對話紀錄已儲存：{fp}")
             break
 
         if not user_input:
@@ -218,6 +253,9 @@ def main():
 
         if user_input.lower() in ("quit", "exit", "bye", "結束"):
             print("\n👋 再見！感謝使用！")
+            if history.messages:
+                fp = save_history(history.messages, session_id)
+                print(f"💾 對話紀錄已儲存：{fp}")
             break
 
         try:

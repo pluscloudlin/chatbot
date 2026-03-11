@@ -4,9 +4,11 @@ Streamlit 聊天介面 — LangChain + Gemini API
 """
 
 import os
+import json
 import base64
 import mimetypes
 import glob
+from datetime import datetime
 
 import streamlit as st
 from dotenv import load_dotenv
@@ -181,6 +183,38 @@ def scan_local_files(directory: str) -> list[dict]:
             "size": size,
         })
     return files
+
+
+def save_history(messages: list, session_id: str = "streamlit"):
+    """將對話歷史儲存為 JSON 檔案至 history/ 資料夾。"""
+    history_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "history")
+    os.makedirs(history_dir, exist_ok=True)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"chat_{session_id}_{timestamp}.json"
+    filepath = os.path.join(history_dir, filename)
+
+    records = []
+    for msg in messages:
+        record = {"role": msg["role"], "content": msg["content"]}
+        if "file_info" in msg:
+            fi = msg["file_info"]
+            if isinstance(fi, list):
+                record["files"] = [f["name"] for f in fi]
+            else:
+                record["files"] = [fi["name"]]
+        records.append(record)
+
+    data = {
+        "session_id": session_id,
+        "saved_at": datetime.now().isoformat(),
+        "messages": records,
+    }
+
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    return filepath
 
 
 # ──────────────── 初始化 LLM ────────────────
@@ -399,6 +433,12 @@ with st.sidebar:
         st.session_state.lc_messages = []
         st.rerun()
 
+    # 匯出對話紀錄
+    if st.session_state.messages:
+        if st.button("💾 儲存對話紀錄", use_container_width=True):
+            fp = save_history(st.session_state.messages)
+            st.success(f"✅ 已儲存至 {os.path.basename(fp)}")
+
 
 # ──────────────── 主區域 ────────────────
 
@@ -507,3 +547,6 @@ if user_input:
     st.session_state.lc_messages.append(history_msg)
     st.session_state.lc_messages.append(AIMessage(content=reply))
     st.session_state.messages.append({"role": "assistant", "content": reply})
+
+    # 自動儲存對話紀錄
+    save_history(st.session_state.messages)

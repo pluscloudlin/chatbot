@@ -9,3 +9,5 @@ __pycache__/
 # Mac 作業系統中的隱藏資料夾管理文件
 # 忽略所有 Markdown 檔案
 *.md
+# 對話歷史紀錄
+history/
