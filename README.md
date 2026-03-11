@@ -2,6 +2,7 @@
 ## 小組：只剩兩個人
 ## 組員：
   - D1149890 林伽紜
+  - D1257081 朱覺祥
 ## 專案簡介
 本專案是一個基於 **LangChain + Google Gemini API** 的多功能對話機器人，支援純文字對話與多模態檔案分析（圖片、PDF、程式碼與文字檔）。提供兩種使用方式：終端機互動模式與 Streamlit 網頁介面，並具備多輪對話記憶、動態角色切換、本地檔案勾選等進階功能。
 
@@ -63,7 +64,9 @@ GOOGLE_API_KEY=your_api_key_here
 ### 問題 1
 - 問題： Git Push 被拒絕
 - 解法： 在本地初始化 Git 並嘗試 `git push` 時，出現 `rejected - fetch first` 錯誤，因為 GitHub 遠端 repo 建立時自動產生了 README 等檔案，導致本地與遠端歷史不一致。
-
+### 問題2
+- 問題：上傳了包含api key的.env
+- 解法： rm掉了以後不追蹤更新，並且在註銷這個key使用新的
 ## 學習心得
 在今天Git版本控制操作時，學到了許多經驗。包括了`.gitignore` 的設定、`git rm --cached` 取消追蹤、`git pull --rebase` 解決歷史分歧。這些都是實際開發中常會遇到的情境，對未來的協作開發很有幫助。
 
