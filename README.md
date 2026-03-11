@@ -60,16 +60,13 @@ GOOGLE_API_KEY=your_api_key_here
 ```
 
 ## 遇到的問題與解法
-問題 1
-問題： Git Push 被拒絕
-解法： 在本地初始化 Git 並嘗試 `git push` 時，出現 `rejected - fetch first` 錯誤，因為 GitHub 遠端 repo 建立時自動產生了 README 等檔案，導致本地與遠端歷史不一致。
-
-問題 2
-問題： 解法：
+### 問題 1
+- 問題： Git Push 被拒絕
+- 解法： 在本地初始化 Git 並嘗試 `git push` 時，出現 `rejected - fetch first` 錯誤，因為 GitHub 遠端 repo 建立時自動產生了 README 等檔案，導致本地與遠端歷史不一致。
 
 ## 學習心得
-在今天Git版本控制
+在今天Git版本控制操作時，學到了許多經驗。包括了`.gitignore` 的設定、`git rm --cached` 取消追蹤、`git pull --rebase` 解決歷史分歧。這些都是實際開發中常會遇到的情境，對未來的協作開發很有幫助。
 
 ## GitHub 專案連結
-https://github.com/pluscloudlin/chatbot
-https://github.com/BobJu0721/Chatbot
+- https://github.com/pluscloudlin/chatbot
+- https://github.com/BobJu0721/Chatbot
